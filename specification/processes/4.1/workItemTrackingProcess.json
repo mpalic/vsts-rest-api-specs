@@ -1,4 +1,4 @@
-{
+﻿{
   "swagger": "2.0",
   "info": {
     "title": "WorkItemTracking",
@@ -14,19 +14,7 @@
     },
     "version": "4.1-preview"
   },
-  "host": "fabrikam-fiber-inc.visualstudio.com",
-  "x-ms-parameterized-host": {
-    "hostTemplate": "{accountName}.visualstudio.com",
-    "parameters": [
-      {
-        "name": "accountName",
-        "description": "The name of the Visual Studio Team Services account.",
-        "required": true,
-        "type": "string",
-        "in": "path"
-      }
-    ]
-  },
+  "host": "dev.azure.com",
   "x-ms-vss-area": "WorkItemTracking",
   "basePath": "/",
   "tags": [
@@ -53,16 +41,16 @@
     "https"
   ],
   "paths": {
-    "/_apis/work/processes": {
+    "/{organization}/_apis/work/processes": {
       "post": {
         "tags": [
           "Processes"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "processes",
         "x-ms-vss-method": "CreateProcess",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Creates a process.",
         "operationId": "Create",
         "consumes": [
           "application/json"
@@ -71,6 +59,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -90,35 +85,58 @@
             "schema": {
               "$ref": "#/definitions/ProcessModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Create the process": {
-                "$ref": "./httpExamples/processes/POST__create_process.json"
-            }
+          "Create the process": {
+            "$ref": "./httpExamples/processes/POST__create_process.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Processes"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "processes",
         "x-ms-vss-method": "GetProcesses",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all processes.",
         "operationId": "List",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "query",
             "name": "$expand",
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetProcessExpandLevel"
+            "enum": [
+              "none",
+              "projects"
+            ],
+            "x-ms-enum": {
+              "name": "GetProcessExpandLevel",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "projects",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -133,25 +151,25 @@
                 "$ref": "#/definitions/ProcessModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the list of processes": {
-                "$ref": "./httpExamples/processes/GET__processes.json"
-            }
+          "Get the list of processes": {
+            "$ref": "./httpExamples/processes/GET__processes.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/behaviors": {
+    "/{organization}/_apis/work/processes/{processId}/behaviors": {
       "get": {
         "tags": [
           "Behaviors"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "behaviors",
         "x-ms-vss-method": "GetBehaviors",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all behaviors in the process.",
         "operationId": "List",
         "produces": [
           "application/json"
@@ -159,8 +177,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -171,7 +196,23 @@
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetBehaviorsExpand"
+            "enum": [
+              "none",
+              "fields"
+            ],
+            "x-ms-enum": {
+              "name": "GetBehaviorsExpand",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "fields",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -186,25 +227,25 @@
                 "$ref": "#/definitions/WorkItemBehavior"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the list of process behaviors": {
-                "$ref": "./httpExamples/behaviors/GET__behaviors_list.json"
-            }
+          "Get the list of process behaviors": {
+            "$ref": "./httpExamples/behaviors/GET__behaviors_list.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/behaviors/{behaviorRefName}": {
+    "/{organization}/_apis/work/processes/{processId}/behaviors/{behaviorRefName}": {
       "get": {
         "tags": [
           "Behaviors"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "behaviors",
         "x-ms-vss-method": "GetBehavior",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a behavior of the process.",
         "operationId": "Get",
         "produces": [
           "application/json"
@@ -212,8 +253,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -221,7 +269,7 @@
           {
             "in": "path",
             "name": "behaviorRefName",
-            "description": "",
+            "description": "Reference name of the behavior",
             "required": true,
             "type": "string"
           },
@@ -231,7 +279,23 @@
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetBehaviorsExpand"
+            "enum": [
+              "none",
+              "fields"
+            ],
+            "x-ms-enum": {
+              "name": "GetBehaviorsExpand",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "fields",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -243,25 +307,25 @@
             "schema": {
               "$ref": "#/definitions/WorkItemBehavior"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the process behavior definition": {
-                "$ref": "./httpExamples/behaviors/GET__behavior.json"
-            }
+          "Get the process behavior definition": {
+            "$ref": "./httpExamples/behaviors/GET__behavior.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/fields": {
+    "/{organization}/_apis/work/processes/{processId}/fields": {
       "get": {
         "tags": [
           "Fields"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "fields",
         "x-ms-vss-method": "GetFields",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all fields in a process.",
         "operationId": "Get Fields",
         "produces": [
           "application/json"
@@ -269,8 +333,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -288,25 +359,25 @@
                 "$ref": "#/definitions/FieldModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the list of process fields": {
-                "$ref": "./httpExamples/fields/GET__process_fields.json"
-            }
+          "Get the list of process fields": {
+            "$ref": "./httpExamples/fields/GET__process_fields.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workitemtypes": {
+    "/{organization}/_apis/work/processes/{processId}/workitemtypes": {
       "get": {
         "tags": [
           "Work Item Types"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "workItemTypes",
         "x-ms-vss-method": "GetWorkItemTypes",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all work item types in a process.",
         "operationId": "List",
         "produces": [
           "application/json"
@@ -314,8 +385,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -326,7 +404,33 @@
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetWorkItemTypeExpand"
+            "enum": [
+              "none",
+              "states",
+              "behaviors",
+              "layout"
+            ],
+            "x-ms-enum": {
+              "name": "GetWorkItemTypeExpand",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "states",
+                  "description": ""
+                },
+                {
+                  "value": "behaviors",
+                  "description": ""
+                },
+                {
+                  "value": "layout",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -341,25 +445,25 @@
                 "$ref": "#/definitions/WorkItemTypeModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get work item types": {
-                "$ref": "./httpExamples/workItemTypes/GET__wits.json"
-            }
+          "Get work item types": {
+            "$ref": "./httpExamples/workItemTypes/GET__wits.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workitemtypes/{witRefName}": {
+    "/{organization}/_apis/work/processes/{processId}/workitemtypes/{witRefName}": {
       "get": {
         "tags": [
           "Work Item Types"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "workItemTypes",
         "x-ms-vss-method": "GetWorkItemType",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a single work item type in a process.",
         "operationId": "Get",
         "produces": [
           "application/json"
@@ -367,8 +471,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -376,7 +487,7 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
@@ -386,7 +497,33 @@
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetWorkItemTypeExpand"
+            "enum": [
+              "none",
+              "states",
+              "behaviors",
+              "layout"
+            ],
+            "x-ms-enum": {
+              "name": "GetWorkItemTypeExpand",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "states",
+                  "description": ""
+                },
+                {
+                  "value": "behaviors",
+                  "description": ""
+                },
+                {
+                  "value": "layout",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -398,25 +535,25 @@
             "schema": {
               "$ref": "#/definitions/WorkItemTypeModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get work item type": {
-                "$ref": "./httpExamples/workItemTypes/GET__wit.json"
-            }
+          "Get work item type": {
+            "$ref": "./httpExamples/workItemTypes/GET__wit.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workItemTypes/{witRefName}/fields": {
+    "/{organization}/_apis/work/processes/{processId}/workItemTypes/{witRefName}/fields": {
       "get": {
         "tags": [
           "Fields"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "fields",
         "x-ms-vss-method": "GetWorkItemTypeFields",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all fields in a work item type.",
         "operationId": "Get Work Item Type Fields",
         "produces": [
           "application/json"
@@ -424,8 +561,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -433,7 +577,7 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
@@ -450,25 +594,25 @@
                 "$ref": "#/definitions/FieldModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the list of work item type fields": {
-                "$ref": "./httpExamples/fields/GET__wit_fields.json"
-            }
+          "Get the list of work item type fields": {
+            "$ref": "./httpExamples/fields/GET__wit_fields.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workItemTypes/{witRefName}/rules": {
+    "/{organization}/_apis/work/processes/{processId}/workItemTypes/{witRefName}/rules": {
       "post": {
         "tags": [
           "Rules"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "rules",
         "x-ms-vss-method": "AddWorkItemTypeRule",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Adds a rule to work item type in the process.",
         "operationId": "Add",
         "consumes": [
           "application/json"
@@ -477,6 +621,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -489,7 +640,7 @@
           {
             "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -497,7 +648,7 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
@@ -511,23 +662,23 @@
             "schema": {
               "$ref": "#/definitions/FieldRuleModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Add the rule definition": {
-                "$ref": "./httpExamples/rules/POST__wit_rule.json"
-            }
+          "Add the rule definition": {
+            "$ref": "./httpExamples/rules/POST__wit_rule.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Rules"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "rules",
         "x-ms-vss-method": "GetWorkItemTypeRules",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all rules in the work item type of the process.",
         "operationId": "List",
         "produces": [
           "application/json"
@@ -535,8 +686,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -544,7 +702,7 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
@@ -561,31 +719,38 @@
                 "$ref": "#/definitions/FieldRuleModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the list of rules for the work item type": {
-                "$ref": "./httpExamples/rules/GET__wit_rules.json"
-            }
+          "Get the list of rules for the work item type": {
+            "$ref": "./httpExamples/rules/GET__wit_rules.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workItemTypes/{witRefName}/rules/{ruleId}": {
+    "/{organization}/_apis/work/processes/{processId}/workItemTypes/{witRefName}/rules/{ruleId}": {
       "delete": {
         "tags": [
           "Rules"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "rules",
         "x-ms-vss-method": "DeleteWorkItemTypeRule",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Removes a rule from the work item type in the process.",
         "operationId": "Delete",
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -593,14 +758,14 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
           {
             "in": "path",
             "name": "ruleId",
-            "description": "",
+            "description": "The ID of the rule",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -612,23 +777,23 @@
         "responses": {
           "200": {
             "description": "successful operation"
-         }
+          }
         },
         "x-ms-examples": {
-            "Delete the rule": {
-                "$ref": "./httpExamples/rules/DELETE__wit_rule.json"
-            }
+          "Delete the rule": {
+            "$ref": "./httpExamples/rules/DELETE__wit_rule.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Rules"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "rules",
         "x-ms-vss-method": "GetWorkItemTypeRule",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a single rule in the work item type of the process.",
         "operationId": "Get",
         "produces": [
           "application/json"
@@ -636,8 +801,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -645,14 +817,14 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
           {
             "in": "path",
             "name": "ruleId",
-            "description": "",
+            "description": "The ID of the rule",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -667,23 +839,23 @@
             "schema": {
               "$ref": "#/definitions/FieldRuleModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the specified rule definition": {
-                "$ref": "./httpExamples/rules/GET__wit_rule.json"
-            }
+          "Get the specified rule definition": {
+            "$ref": "./httpExamples/rules/GET__wit_rule.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Rules"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "rules",
         "x-ms-vss-method": "UpdateWorkItemTypeRule",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Updates a rule in the work item type of the process.",
         "operationId": "Update",
         "consumes": [
           "application/json"
@@ -692,6 +864,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -704,7 +883,7 @@
           {
             "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -712,14 +891,14 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
           {
             "in": "path",
             "name": "ruleId",
-            "description": "",
+            "description": "The ID of the rule",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -734,25 +913,25 @@
             "schema": {
               "$ref": "#/definitions/FieldRuleModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Update the rule definition": {
-                "$ref": "./httpExamples/rules/PUT__wit_rule.json"
-            }
+          "Update the rule definition": {
+            "$ref": "./httpExamples/rules/PUT__wit_rule.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workItemTypes/{witRefName}/states": {
+    "/{organization}/_apis/work/processes/{processId}/workItemTypes/{witRefName}/states": {
       "get": {
         "tags": [
           "States"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "states",
         "x-ms-vss-method": "GetStateDefinitions",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a list of all state definitions in a work item type of the process.",
         "operationId": "List",
         "produces": [
           "application/json"
@@ -760,8 +939,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -769,7 +955,7 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
@@ -786,25 +972,25 @@
                 "$ref": "#/definitions/WorkItemStateResultModel"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get state definitions": {
-                "$ref": "./httpExamples/states/GET__wit_states.json"
-            }
+          "Get state definitions": {
+            "$ref": "./httpExamples/states/GET__wit_states.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processId}/workItemTypes/{witRefName}/states/{stateId}": {
+    "/{organization}/_apis/work/processes/{processId}/workItemTypes/{witRefName}/states/{stateId}": {
       "get": {
         "tags": [
           "States"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "states",
         "x-ms-vss-method": "GetStateDefinition",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a single state definition in a work item type of the process.",
         "operationId": "Get",
         "produces": [
           "application/json"
@@ -812,8 +998,15 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "processId",
-            "description": "",
+            "description": "The ID of the process",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -821,14 +1014,14 @@
           {
             "in": "path",
             "name": "witRefName",
-            "description": "",
+            "description": "The reference name of the work item type",
             "required": true,
             "type": "string"
           },
           {
             "in": "path",
             "name": "stateId",
-            "description": "",
+            "description": "The ID of the state",
             "required": true,
             "type": "string",
             "format": "uuid"
@@ -843,27 +1036,34 @@
             "schema": {
               "$ref": "#/definitions/WorkItemStateResultModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get state definition": {
-                "$ref": "./httpExamples/states/GET__wit_state.json"
-            }
+          "Get state definition": {
+            "$ref": "./httpExamples/states/GET__wit_state.json"
+          }
         }
       }
     },
-    "/_apis/work/processes/{processTypeId}": {
+    "/{organization}/_apis/work/processes/{processTypeId}": {
       "delete": {
         "tags": [
           "Processes"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "processes",
         "x-ms-vss-method": "DeleteProcess",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Removes a process of a specific ID.",
         "operationId": "Delete",
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "processTypeId",
@@ -879,28 +1079,35 @@
         "responses": {
           "200": {
             "description": "successful operation"
-         }
+          }
         },
         "x-ms-examples": {
-            "Delete the process definition": {
-                "$ref": "./httpExamples/processes/DELETE__process.json"
-            }
+          "Delete the process definition": {
+            "$ref": "./httpExamples/processes/DELETE__process.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Processes"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "processes",
         "x-ms-vss-method": "GetProcessById",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Returns a single process of a specified ID.",
         "operationId": "Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "processTypeId",
@@ -915,7 +1122,23 @@
             "description": "",
             "required": false,
             "type": "string",
-            "format": "GetProcessExpandLevel"
+            "enum": [
+              "none",
+              "projects"
+            ],
+            "x-ms-enum": {
+              "name": "GetProcessExpandLevel",
+              "values": [
+                {
+                  "value": "none",
+                  "description": ""
+                },
+                {
+                  "value": "projects",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -927,23 +1150,23 @@
             "schema": {
               "$ref": "#/definitions/ProcessModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get the specific process definition": {
-                "$ref": "./httpExamples/processes/GET__process.json"
-            }
+          "Get the specific process definition": {
+            "$ref": "./httpExamples/processes/GET__process.json"
+          }
         }
       },
       "patch": {
         "tags": [
           "Processes"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "processes",
         "x-ms-vss-method": "UpdateProcess",
         "x-ms-preview": true,
-        "description": "",
+        "description": "Updates a process of a specific ID.",
         "operationId": "Update",
         "consumes": [
           "application/json"
@@ -952,6 +1175,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -979,12 +1209,12 @@
             "schema": {
               "$ref": "#/definitions/ProcessModel"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Update the process definition": {
-                "$ref": "./httpExamples/processes/PATCH__update_process.json"
-            }
+          "Update the process definition": {
+            "$ref": "./httpExamples/processes/PATCH__update_process.json"
+          }
         }
       }
     }
@@ -1017,7 +1247,6 @@
         },
         "isContribution": {
           "description": "A value indicating if the layout node is contribution or not.",
-          "readOnly": true,
           "type": "boolean"
         },
         "label": {
@@ -1055,16 +1284,20 @@
       "type": "object",
       "properties": {
         "description": {
+          "description": "Description of the process",
           "type": "string"
         },
         "name": {
+          "description": "Name of the process",
           "type": "string"
         },
         "parentProcessTypeId": {
+          "description": "The ID of the parent process",
           "type": "string",
           "format": "uuid"
         },
         "referenceName": {
+          "description": "Reference name of the process",
           "type": "string"
         }
       }
@@ -1112,7 +1345,65 @@
             "picklistDouble"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.WorkItemTracking.Process.WebApi.Models.FieldType"
+            "name": "FieldType",
+            "values": [
+              {
+                "value": "string",
+                "description": ""
+              },
+              {
+                "value": "integer",
+                "description": ""
+              },
+              {
+                "value": "dateTime",
+                "description": ""
+              },
+              {
+                "value": "plainText",
+                "description": ""
+              },
+              {
+                "value": "html",
+                "description": ""
+              },
+              {
+                "value": "treePath",
+                "description": ""
+              },
+              {
+                "value": "history",
+                "description": ""
+              },
+              {
+                "value": "double",
+                "description": ""
+              },
+              {
+                "value": "guid",
+                "description": ""
+              },
+              {
+                "value": "boolean",
+                "description": ""
+              },
+              {
+                "value": "identity",
+                "description": ""
+              },
+              {
+                "value": "picklistInteger",
+                "description": ""
+              },
+              {
+                "value": "picklistString",
+                "description": ""
+              },
+              {
+                "value": "picklistDouble",
+                "description": ""
+              }
+            ]
           }
         },
         "url": {
@@ -1208,7 +1499,6 @@
         },
         "isContribution": {
           "description": "A value indicating if the layout node is contribution are not.",
-          "readOnly": true,
           "type": "boolean"
         },
         "label": {
@@ -1248,7 +1538,6 @@
         },
         "isContribution": {
           "description": "A value indicating if the layout node is contribution are not.",
-          "readOnly": true,
           "type": "boolean"
         },
         "label": {
@@ -1277,7 +1566,25 @@
             "attachments"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.WorkItemTracking.Process.WebApi.Models.PageType"
+            "name": "PageType",
+            "values": [
+              {
+                "value": "custom",
+                "description": ""
+              },
+              {
+                "value": "history",
+                "description": ""
+              },
+              {
+                "value": "links",
+                "description": ""
+              },
+              {
+                "value": "attachments",
+                "description": ""
+              }
+            ]
           }
         },
         "sections": {
@@ -1298,54 +1605,79 @@
       "type": "object",
       "properties": {
         "description": {
+          "description": "Description of the process",
           "type": "string"
         },
         "name": {
+          "description": "Name of the process",
           "type": "string"
         },
         "projects": {
+          "description": "Projects in this process",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ProjectReference"
           }
         },
         "properties": {
+          "description": "Properties of the process",
           "$ref": "#/definitions/ProcessProperties"
         },
         "referenceName": {
+          "description": "Reference name of the process",
           "type": "string"
         },
         "typeId": {
+          "description": "The ID of the process",
           "type": "string",
           "format": "uuid"
         }
       }
     },
     "ProcessProperties": {
-      "description": "",
+      "description": "Properties of the process",
       "type": "object",
       "properties": {
         "class": {
+          "description": "Class of the process",
           "enum": [
             "system",
             "derived",
             "custom"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.WorkItemTracking.Process.WebApi.Models.ProcessClass"
+            "name": "ProcessClass",
+            "values": [
+              {
+                "value": "system",
+                "description": ""
+              },
+              {
+                "value": "derived",
+                "description": ""
+              },
+              {
+                "value": "custom",
+                "description": ""
+              }
+            ]
           }
         },
         "isDefault": {
+          "description": "Is the process default process",
           "type": "boolean"
         },
         "isEnabled": {
+          "description": "Is the process enabled",
           "type": "boolean"
         },
         "parentProcessTypeId": {
+          "description": "ID of the parent process",
           "type": "string",
           "format": "uuid"
         },
         "version": {
+          "description": "Version of the process",
           "type": "string"
         }
       }
@@ -1355,16 +1687,20 @@
       "type": "object",
       "properties": {
         "description": {
+          "description": "Description of the project",
           "type": "string"
         },
         "id": {
+          "description": "The ID of the project",
           "type": "string",
           "format": "uuid"
         },
         "name": {
+          "description": "Name of the project",
           "type": "string"
         },
         "url": {
+          "description": "Url of the project",
           "type": "string"
         }
       }
@@ -1447,7 +1783,6 @@
       ],
       "properties": {
         "value": {
-          "readOnly": true,
           "type": "string",
           "format": "T"
         }
@@ -1458,7 +1793,6 @@
       "type": "object",
       "properties": {
         "count": {
-          "readOnly": true,
           "type": "integer",
           "format": "int32"
         }
@@ -1618,7 +1952,21 @@
             "custom"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.WorkItemTracking.Process.WebApi.Models.WorkItemTypeClass"
+            "name": "WorkItemTypeClass",
+            "values": [
+              {
+                "value": "system",
+                "description": ""
+              },
+              {
+                "value": "derived",
+                "description": ""
+              },
+              {
+                "value": "custom",
+                "description": ""
+              }
+            ]
           }
         },
         "color": {
@@ -1671,7 +2019,7 @@
     "accessToken": {
       "type": "basic",
       "description": "Personal access token. Use any value for the user name and the token as the password."
-     }
+    }
   },
   "security": [
     {
@@ -1679,7 +2027,7 @@
     }
   ],
   "externalDocs": {
-    "description": "Visual Studio Team Services REST APIs",
-    "url": "https://www.visualstudio.com/docs/integrate/api/overview"
+    "description": "Azure DevOps REST APIs",
+    "url": "https://aka.ms/azure-devops-rest-apis"
   }
 }

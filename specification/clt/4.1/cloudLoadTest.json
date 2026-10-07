@@ -1,4 +1,4 @@
-{
+﻿{
   "swagger": "2.0",
   "info": {
     "title": "CloudLoadTest",
@@ -12,22 +12,11 @@
       "name": "MICROSOFT SOFTWARE LICENSE TERMS",
       "url": "https://go.microsoft.com/fwlink/?LinkId=329770"
     },
-    "version": "4.1-preview"
+    "version": "4.1"
   },
-  "host": "fabrikam-fiber-inc.visualstudio.com",
-  "x-ms-parameterized-host": {
-    "hostTemplate": "{accountName}.vsclt.visualstudio.com",
-    "parameters": [
-      {
-        "name": "accountName",
-        "description": "The name of the Visual Studio Team Services account.",
-        "required": true,
-        "type": "string",
-        "in": "path"
-      }
-    ]
-  },
+  "host": "vsclt.dev.azure.com",
   "x-ms-vss-area": "CloudLoadTest",
+  "x-ms-vss-resource-area-id": "7ae6d0a6-cda5-44cf-a261-28c392bed25c",
   "basePath": "/",
   "tags": [
     {
@@ -74,15 +63,14 @@
     "https"
   ],
   "paths": {
-    "/_apis/clt/agentgroups": {
+    "/{organization}/_apis/clt/agentgroups": {
       "post": {
         "tags": [
           "Agent Groups"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "agentGroups",
         "x-ms-vss-method": "CreateAgentGroup",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Create",
         "consumes": [
@@ -93,6 +81,13 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "Agent group to be created",
@@ -102,7 +97,7 @@
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -111,30 +106,36 @@
             "schema": {
               "$ref": "#/definitions/AgentGroup"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Create an agent group": {
-                "$ref": "./httpExamples/AgentGroups/POST__AgentGroups.json"
-            }
+          "Create an agent group": {
+            "$ref": "./httpExamples/AgentGroups/POST__AgentGroups.json"
+          }
         }
       }
     },
-    "/_apis/clt/agentgroups/{agentGroupId}": {
+    "/{organization}/_apis/clt/agentgroups/{agentGroupId}": {
       "get": {
         "tags": [
           "Agent Groups"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "agentGroups",
         "x-ms-vss-method": "GetAgentGroups",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "agentGroupId",
@@ -172,7 +173,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -181,30 +182,29 @@
             "schema": {
               "type": "object"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "All agent groups": {
-                "$ref": "./httpExamples/AgentGroups/GET__AgentGroups.json"
-            },
-            "By group id": {
-                "$ref": "./httpExamples/AgentGroups/GET__AgentGroups_agentGroupId.json"
-            },
-            "By name": {
-                "$ref": "./httpExamples/AgentGroups/GET__AgentGroups_agentGroupName.json"
-            }
+          "All agent groups": {
+            "$ref": "./httpExamples/AgentGroups/GET__AgentGroups.json"
+          },
+          "By group id": {
+            "$ref": "./httpExamples/AgentGroups/GET__AgentGroups_agentGroupId.json"
+          },
+          "By name": {
+            "$ref": "./httpExamples/AgentGroups/GET__AgentGroups_agentGroupName.json"
+          }
         }
       }
     },
-    "/_apis/clt/agentGroups/{agentGroupId}/agents": {
+    "/{organization}/_apis/clt/agentGroups/{agentGroupId}/agents": {
       "delete": {
         "tags": [
           "Agents"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "agents",
         "x-ms-vss-method": "DeleteStaticAgent",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Delete",
         "produces": [
@@ -213,6 +213,13 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "agentGroupId",
             "description": "The agent group identifier",
             "required": true,
@@ -226,7 +233,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -235,28 +242,34 @@
             "schema": {
               "type": "string"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Delete an agent": {
-                "$ref": "./httpExamples/Agents/DELETE__Agents_agentName.json"
-            }
+          "Delete an agent": {
+            "$ref": "./httpExamples/Agents/DELETE__Agents_agentName.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Agents"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "agents",
         "x-ms-vss-method": "GetStaticAgents",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "agentGroupId",
@@ -272,7 +285,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -281,33 +294,39 @@
             "schema": {
               "type": "object"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "By group id": {
-                "$ref": "./httpExamples/Agents/GET__Agents_agentGroupId.json"
-            },
-            "By agent name": {
-                "$ref": "./httpExamples/Agents/GET__Agents_agentName.json"
-            }
+          "By group id": {
+            "$ref": "./httpExamples/Agents/GET__Agents_agentGroupId.json"
+          },
+          "By agent name": {
+            "$ref": "./httpExamples/Agents/GET__Agents_agentName.json"
+          }
         }
       }
     },
-    "/_apis/clt/apm/applications": {
+    "/{organization}/_apis/clt/apm/applications": {
       "get": {
         "tags": [
           "Applications"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "applications",
         "x-ms-vss-method": "GetApplications",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "query",
             "name": "type",
@@ -316,7 +335,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -328,24 +347,23 @@
                 "$ref": "#/definitions/Application"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Applications/GET__ApmApplications__type_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Applications/GET__ApmApplications__type_.json"
+          }
         }
       }
     },
-    "/_apis/clt/apm/applications/{applicationId}": {
+    "/{organization}/_apis/clt/apm/applications/{applicationId}": {
       "get": {
         "tags": [
           "Applications"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "applications",
         "x-ms-vss-method": "GetApplication",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
@@ -354,13 +372,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "applicationId",
             "description": "Filter by APM application identifier.",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -369,25 +394,31 @@
             "schema": {
               "$ref": "#/definitions/Application"
             }
-         }
+          }
         }
       }
     },
-    "/_apis/clt/apm/counters": {
+    "/{organization}/_apis/clt/apm/counters": {
       "get": {
         "tags": [
           "Counters"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "counters",
         "x-ms-vss-method": "GetApplicationCounters",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "query",
             "name": "applicationId",
@@ -403,7 +434,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -415,24 +446,23 @@
                 "$ref": "#/definitions/ApplicationCounters"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Counters/GET__ApmCounters.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Counters/GET__ApmCounters.json"
+          }
         }
       }
     },
-    "/_apis/clt/apm/plugins": {
+    "/{organization}/_apis/clt/apm/plugins": {
       "get": {
         "tags": [
           "Plugins"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "plugins",
         "x-ms-vss-method": "GetPlugins",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
@@ -440,7 +470,14 @@
         ],
         "parameters": [
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -452,24 +489,23 @@
                 "$ref": "#/definitions/ApplicationType"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get a list of plugins": {
-                "$ref": "./httpExamples/Plugins/GET__ApmPlugins.json"
-            }
+          "Get a list of plugins": {
+            "$ref": "./httpExamples/Plugins/GET__ApmPlugins.json"
+          }
         }
       }
     },
-    "/_apis/clt/apm/plugins/{type}": {
+    "/{organization}/_apis/clt/apm/plugins/{type}": {
       "get": {
         "tags": [
           "Plugins"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "plugins",
         "x-ms-vss-method": "GetPlugin",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
@@ -478,13 +514,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "type",
             "description": "Currently ApplicationInsights is the only available plugin type.",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -493,24 +536,23 @@
             "schema": {
               "$ref": "#/definitions/ApplicationType"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get a plugin": {
-                "$ref": "./httpExamples/Plugins/GET__ApmPlugins__type_.json"
-            }
+          "Get a plugin": {
+            "$ref": "./httpExamples/Plugins/GET__ApmPlugins__type_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testdefinitions": {
+    "/{organization}/_apis/clt/testdefinitions": {
       "post": {
         "tags": [
           "Test Definitions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDefinitions",
         "x-ms-vss-method": "CreateTestDefinition",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Create",
         "consumes": [
@@ -521,6 +563,13 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "Test definition to be created",
@@ -530,7 +579,7 @@
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -539,28 +588,34 @@
             "schema": {
               "$ref": "#/definitions/TestDefinition"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Create a test definition": {
-                "$ref": "./httpExamples/TestDefinitions/POST__TestDefinitions.json"
-            }
+          "Create a test definition": {
+            "$ref": "./httpExamples/TestDefinitions/POST__TestDefinitions.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Test Definitions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDefinitions",
         "x-ms-vss-method": "GetTestDefinitions",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "query",
             "name": "fromDate",
@@ -584,7 +639,7 @@
             "format": "int32"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -596,22 +651,21 @@
                 "$ref": "#/definitions/TestDefinitionBasic"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "All test definitions": {
-                "$ref": "./httpExamples/TestDefinitions/GET__TestDefinitions.json"
-            }
+          "All test definitions": {
+            "$ref": "./httpExamples/TestDefinitions/GET__TestDefinitions.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Test Definitions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDefinitions",
         "x-ms-vss-method": "UpdateTestDefinition",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Update",
         "consumes": [
@@ -622,6 +676,13 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "",
@@ -631,7 +692,7 @@
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -640,24 +701,23 @@
             "schema": {
               "$ref": "#/definitions/TestDefinition"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Update a test definition": {
-                "$ref": "./httpExamples/TestDefinitions/PUT__TestDefinitions.json"
-            }
+          "Update a test definition": {
+            "$ref": "./httpExamples/TestDefinitions/PUT__TestDefinitions.json"
+          }
         }
       }
     },
-    "/_apis/clt/testdefinitions/{testDefinitionId}": {
+    "/{organization}/_apis/clt/testdefinitions/{testDefinitionId}": {
       "get": {
         "tags": [
           "Test Definitions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDefinitions",
         "x-ms-vss-method": "GetTestDefinition",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
@@ -666,13 +726,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "testDefinitionId",
             "description": "The test definition identifier",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -681,24 +748,23 @@
             "schema": {
               "$ref": "#/definitions/TestDefinition"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "By test definition id": {
-                "$ref": "./httpExamples/TestDefinitions/GET__TestDefinitions_testDefinitionId.json"
-            }
+          "By test definition id": {
+            "$ref": "./httpExamples/TestDefinitions/GET__TestDefinitions_testDefinitionId.json"
+          }
         }
       }
     },
-    "/_apis/clt/testdrops": {
+    "/{organization}/_apis/clt/testdrops": {
       "post": {
         "tags": [
           "Test Drops"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDrops",
         "x-ms-vss-method": "CreateTestDrop",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Create",
         "consumes": [
@@ -708,6 +774,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -719,7 +792,7 @@
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -729,24 +802,23 @@
               "type": "string",
               "format": "Microsoft.VisualStudio.TestService.WebApiModel.TestDrop"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Create a test drop": {
-                "$ref": "./httpExamples/TestDrops/POST__TestDrops__dropType_.json"
-            }
+          "Create a test drop": {
+            "$ref": "./httpExamples/TestDrops/POST__TestDrops__dropType_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testdrops/{testDropId}": {
+    "/{organization}/_apis/clt/testdrops/{testDropId}": {
       "get": {
         "tags": [
           "Test Drops"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testDrops",
         "x-ms-vss-method": "GetTestDrop",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
@@ -755,13 +827,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "testDropId",
             "description": "The test drop identifier",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -771,24 +850,23 @@
               "type": "string",
               "format": "Microsoft.VisualStudio.TestService.WebApiModel.TestDrop"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get a test drop": {
-                "$ref": "./httpExamples/TestDrops/GET__TestDrops__testDropId_.json"
-            }
+          "Get a test drop": {
+            "$ref": "./httpExamples/TestDrops/GET__TestDrops__testDropId_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testruns": {
+    "/{organization}/_apis/clt/testruns": {
       "post": {
         "tags": [
           "Test Runs"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testRuns",
         "x-ms-vss-method": "CreateTestRun",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Create",
         "consumes": [
@@ -799,6 +877,13 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "",
@@ -808,7 +893,7 @@
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -817,28 +902,34 @@
             "schema": {
               "$ref": "#/definitions/TestRun"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Create a test run": {
-                "$ref": "./httpExamples/TestRuns/POST__TestRuns.json"
-            }
+          "Create a test run": {
+            "$ref": "./httpExamples/TestRuns/POST__TestRuns.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Test Runs"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testRuns",
         "x-ms-vss-method": "GetTestRuns",
-        "x-ms-preview": true,
         "description": "Returns test runs based on the filter specified. Returns all runs of the tenant if there is no filter.",
         "operationId": "Get Test Runs",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "query",
             "name": "name",
@@ -911,7 +1002,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -920,39 +1011,38 @@
             "schema": {
               "type": "object"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "All test runs": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns.json"
-            },
-            "By name": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__name_.json"
-            },
-            "By user": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__user_.json"
-            },
-            "By status": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__status_.json"
-            },
-            "By date": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__date_.json"
-            },
-            "With detailed attributes": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__detailed_.json"
-            }
+          "All test runs": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns.json"
+          },
+          "By name": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__name_.json"
+          },
+          "By user": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__user_.json"
+          },
+          "By status": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__status_.json"
+          },
+          "By date": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__date_.json"
+          },
+          "With detailed attributes": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__filter__detailed_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testruns/{testRunId}": {
+    "/{organization}/_apis/clt/testruns/{testRunId}": {
       "get": {
         "tags": [
           "Test Runs"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testRuns",
         "x-ms-vss-method": "GetTestRun",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get Test Run",
         "produces": [
@@ -961,13 +1051,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "testRunId",
             "description": "Unique ID of the test run",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -976,28 +1073,34 @@
             "schema": {
               "$ref": "#/definitions/TestRun"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/TestRuns/GET__TestRuns__testRunId_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/TestRuns/GET__TestRuns__testRunId_.json"
+          }
         }
       },
       "patch": {
         "tags": [
           "Test Runs"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "testRuns",
         "x-ms-vss-method": "UpdateTestRun",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Update",
         "consumes": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1015,39 +1118,45 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation"
-         }
+          }
         },
         "x-ms-examples": {
-            "Start a test run": {
-                "$ref": "./httpExamples/TestRuns/PATCH__TestRuns__testRunId_Queued.json"
-            },
-            "Stop a test run": {
-                "$ref": "./httpExamples/TestRuns/PATCH__TestRuns__testRunId_Aborted.json"
-            }
+          "Start a test run": {
+            "$ref": "./httpExamples/TestRuns/PATCH__TestRuns__testRunId_Queued.json"
+          },
+          "Stop a test run": {
+            "$ref": "./httpExamples/TestRuns/PATCH__TestRuns__testRunId_Aborted.json"
+          }
         }
       }
     },
-    "/_apis/clt/testRuns/{testRunId}/counterinstances": {
+    "/{organization}/_apis/clt/testRuns/{testRunId}/counterinstances": {
       "get": {
         "tags": [
           "Counter Instances"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "counterInstances",
         "x-ms-vss-method": "GetCounters",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "testRunId",
@@ -1070,7 +1179,7 @@
             "type": "boolean"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -1082,24 +1191,23 @@
                 "$ref": "#/definitions/TestRunCounterInstance"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get a list of counter instances": {
-                "$ref": "./httpExamples/CounterInstances/GET__CounterInstances__run_.json"
-            }
+          "Get a list of counter instances": {
+            "$ref": "./httpExamples/CounterInstances/GET__CounterInstances__run_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testRuns/{testRunId}/countersamples": {
+    "/{organization}/_apis/clt/testRuns/{testRunId}/countersamples": {
       "post": {
         "tags": [
           "Counter Samples"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "counterSamples",
         "x-ms-vss-method": "GetCounterSamples",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "consumes": [
@@ -1109,6 +1217,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1126,7 +1241,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -1135,30 +1250,36 @@
             "schema": {
               "$ref": "#/definitions/CounterSamplesResult"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "Get a list of counter samples": {
-                "$ref": "./httpExamples/CounterSamples/POST__CounterSamples__run_.json"
-            }
+          "Get a list of counter samples": {
+            "$ref": "./httpExamples/CounterSamples/POST__CounterSamples__run_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testRuns/{testRunId}/errors": {
+    "/{organization}/_apis/clt/testRuns/{testRunId}/errors": {
       "get": {
         "tags": [
           "Errors"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "errors",
         "x-ms-vss-method": "GetLoadTestRunErrors",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "testRunId",
@@ -1188,7 +1309,7 @@
             "type": "boolean"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.2"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -1197,33 +1318,32 @@
             "schema": {
               "$ref": "#/definitions/LoadTestErrors"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "With Error Type specified": {
-                "$ref": "./httpExamples/Errors/errortype.json"
-            },
-            "With Error Type and Subtype specified": {
-                "$ref": "./httpExamples/Errors/errortypesubtype.json"
-            },
-            "With Error Type and Subtype specified and detailed=true": {
-                "$ref": "./httpExamples/Errors/errortypesubtypedetailed.json"
-            },
-            "With Detailed=true": {
-                "$ref": "./httpExamples/Errors/GetTestRunErrorsDetailedTrue.json"
-            }
+          "With Error Type specified": {
+            "$ref": "./httpExamples/Errors/errortype.json"
+          },
+          "With Error Type and Subtype specified": {
+            "$ref": "./httpExamples/Errors/errortypesubtype.json"
+          },
+          "With Error Type and Subtype specified and detailed=true": {
+            "$ref": "./httpExamples/Errors/errortypesubtypedetailed.json"
+          },
+          "With Detailed=true": {
+            "$ref": "./httpExamples/Errors/GetTestRunErrorsDetailedTrue.json"
+          }
         }
       }
     },
-    "/_apis/clt/testRuns/{testRunId}/messages": {
+    "/{organization}/_apis/clt/testRuns/{testRunId}/messages": {
       "get": {
         "tags": [
           "Messages"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "messages",
         "x-ms-vss-method": "GetTestRunMessages",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "List",
         "produces": [
@@ -1232,13 +1352,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "testRunId",
             "description": "Id of the test run",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -1251,24 +1378,23 @@
                 "format": "Microsoft.VisualStudio.TestService.WebApiModel.TestRunMessage"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Messages/GET__messages_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Messages/GET__messages_.json"
+          }
         }
       }
     },
-    "/_apis/clt/testRuns/{testRunId}/results": {
+    "/{organization}/_apis/clt/testRuns/{testRunId}/results": {
       "get": {
         "tags": [
           "Results"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "results",
         "x-ms-vss-method": "GetLoadTestResult",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Get",
         "produces": [
@@ -1277,13 +1403,20 @@
         "parameters": [
           {
             "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
             "name": "testRunId",
             "description": "The test run identifier",
             "required": true,
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -1292,12 +1425,12 @@
             "schema": {
               "$ref": "#/definitions/TestResults"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Results/GET__TestResults_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Results/GET__TestResults_.json"
+          }
         }
       }
     }
@@ -1308,25 +1441,20 @@
       "type": "object",
       "properties": {
         "createdBy": {
-          "readOnly": true,
           "type": "string",
           "format": "IdentityRef"
         },
         "creationTime": {
-          "readOnly": true,
           "type": "string",
           "format": "date-time"
         },
         "groupId": {
-          "readOnly": true,
           "type": "string"
         },
         "groupName": {
-          "readOnly": true,
           "type": "string"
         },
         "machineAccessData": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/AgentGroupAccessData"
@@ -1336,7 +1464,6 @@
           "$ref": "#/definitions/WebApiUserLoadTestMachineInput"
         },
         "tenantId": {
-          "readOnly": true,
           "type": "string"
         }
       }
@@ -1663,8 +1790,7 @@
     "LoadTest": {
       "description": "",
       "type": "object",
-      "properties": {
-      }
+      "properties": {}
     },
     "LoadTestDefinition": {
       "description": "",
@@ -1737,14 +1863,12 @@
           "format": "int32"
         },
         "types": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/Type"
           }
         },
         "url": {
-          "readOnly": true,
           "type": "string"
         }
       }
@@ -1791,7 +1915,21 @@
             "userLoadAgent"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.LoadTestMachineType"
+            "name": "LoadTestMachineType",
+            "values": [
+              {
+                "value": "default",
+                "description": ""
+              },
+              {
+                "value": "cLTLoadAgent",
+                "description": ""
+              },
+              {
+                "value": "userLoadAgent",
+                "description": ""
+              }
+            ]
           }
         },
         "samplingInterval": {
@@ -1815,7 +1953,21 @@
             "userLoadAgent"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.LoadTestMachineType"
+            "name": "LoadTestMachineType",
+            "values": [
+              {
+                "value": "default",
+                "description": ""
+              },
+              {
+                "value": "cLTLoadAgent",
+                "description": ""
+              },
+              {
+                "value": "userLoadAgent",
+                "description": ""
+              }
+            ]
           }
         },
         "staticAgentRunSettings": {
@@ -1925,7 +2077,21 @@
             "userLoadAgent"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.LoadTestMachineType"
+            "name": "LoadTestMachineType",
+            "values": [
+              {
+                "value": "default",
+                "description": ""
+              },
+              {
+                "value": "cLTLoadAgent",
+                "description": ""
+              },
+              {
+                "value": "userLoadAgent",
+                "description": ""
+              }
+            ]
           }
         },
         "staticAgentGroupName": {
@@ -1942,7 +2108,6 @@
           "format": "int32"
         },
         "errorDetailList": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/ErrorDetails"
@@ -1979,7 +2144,6 @@
       "type": "object",
       "properties": {
         "accessDetails": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/AgentGroupAccessData"
@@ -1989,7 +2153,6 @@
           "type": "string"
         },
         "staticMachines": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/WebApiTestMachine"
@@ -1999,11 +2162,9 @@
           "$ref": "#/definitions/WebApiUserLoadTestMachineInput"
         },
         "userLoadAgentResourcesUri": {
-          "readOnly": true,
           "type": "string"
         },
         "validGeoLocations": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "type": "string"
@@ -2076,7 +2237,21 @@
             "oldLoadTestFile"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.LoadTestTypes"
+            "name": "LoadTestTypes",
+            "values": [
+              {
+                "value": "visualStudioLoadTest",
+                "description": ""
+              },
+              {
+                "value": "jMeter",
+                "description": ""
+              },
+              {
+                "value": "oldLoadTestFile",
+                "description": ""
+              }
+            ]
           }
         },
         "name": {
@@ -2232,7 +2407,25 @@
             "retain"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.TestRunRetentionState"
+            "name": "TestRunRetentionState",
+            "values": [
+              {
+                "value": "none",
+                "description": ""
+              },
+              {
+                "value": "markedForDeletion",
+                "description": ""
+              },
+              {
+                "value": "deleted",
+                "description": ""
+              },
+              {
+                "value": "retain",
+                "description": ""
+              }
+            ]
           }
         },
         "runSourceIdentifier": {
@@ -2268,7 +2461,53 @@
             "partialSuccess"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.TestRunSubState"
+            "name": "TestRunSubState",
+            "values": [
+              {
+                "value": "none",
+                "description": ""
+              },
+              {
+                "value": "validatingTestRun",
+                "description": ""
+              },
+              {
+                "value": "acquiringResources",
+                "description": ""
+              },
+              {
+                "value": "configuringAgents",
+                "description": ""
+              },
+              {
+                "value": "executingSetupScript",
+                "description": ""
+              },
+              {
+                "value": "warmingUp",
+                "description": ""
+              },
+              {
+                "value": "runningTest",
+                "description": ""
+              },
+              {
+                "value": "executingCleanupScript",
+                "description": ""
+              },
+              {
+                "value": "collectingResults",
+                "description": ""
+              },
+              {
+                "value": "success",
+                "description": ""
+              },
+              {
+                "value": "partialSuccess",
+                "description": ""
+              }
+            ]
           }
         },
         "supersedeRunSettings": {
@@ -2369,7 +2608,17 @@
             "jMeterLoadTest"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.TestRunType"
+            "name": "TestRunType",
+            "values": [
+              {
+                "value": "visualStudioLoadTest",
+                "description": ""
+              },
+              {
+                "value": "jMeterLoadTest",
+                "description": ""
+              }
+            ]
           }
         },
         "state": {
@@ -2383,7 +2632,37 @@
             "error"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.TestRunState"
+            "name": "TestRunState",
+            "values": [
+              {
+                "value": "pending",
+                "description": ""
+              },
+              {
+                "value": "queued",
+                "description": ""
+              },
+              {
+                "value": "inProgress",
+                "description": ""
+              },
+              {
+                "value": "stopping",
+                "description": ""
+              },
+              {
+                "value": "completed",
+                "description": ""
+              },
+              {
+                "value": "aborted",
+                "description": ""
+              },
+              {
+                "value": "error",
+                "description": ""
+              }
+            ]
           }
         },
         "url": {
@@ -2459,7 +2738,29 @@
             "autCounterCollection"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.MessageSource"
+            "name": "MessageSource",
+            "values": [
+              {
+                "value": "setupScript",
+                "description": ""
+              },
+              {
+                "value": "cleanupScript",
+                "description": ""
+              },
+              {
+                "value": "validation",
+                "description": ""
+              },
+              {
+                "value": "other",
+                "description": ""
+              },
+              {
+                "value": "autCounterCollection",
+                "description": ""
+              }
+            ]
           }
         },
         "messageType": {
@@ -2471,7 +2772,29 @@
             "critical"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.MessageType"
+            "name": "MessageType",
+            "values": [
+              {
+                "value": "info",
+                "description": ""
+              },
+              {
+                "value": "output",
+                "description": ""
+              },
+              {
+                "value": "error",
+                "description": ""
+              },
+              {
+                "value": "warning",
+                "description": ""
+              },
+              {
+                "value": "critical",
+                "description": ""
+              }
+            ]
           }
         },
         "testRunId": {
@@ -2499,7 +2822,33 @@
             "arm"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.ProcessorArchitecture"
+            "name": "ProcessorArchitecture",
+            "values": [
+              {
+                "value": "none",
+                "description": ""
+              },
+              {
+                "value": "msil",
+                "description": ""
+              },
+              {
+                "value": "x86",
+                "description": ""
+              },
+              {
+                "value": "ia64",
+                "description": ""
+              },
+              {
+                "value": "amd64",
+                "description": ""
+              },
+              {
+                "value": "arm",
+                "description": ""
+              }
+            ]
           }
         },
         "setupCommand": {
@@ -2587,7 +2936,6 @@
           "format": "int32"
         },
         "subTypes": {
-          "readOnly": true,
           "type": "array",
           "items": {
             "$ref": "#/definitions/SubType"
@@ -2611,7 +2959,6 @@
       ],
       "properties": {
         "value": {
-          "readOnly": true,
           "type": "string",
           "format": "T"
         }
@@ -2622,7 +2969,6 @@
       "type": "object",
       "properties": {
         "count": {
-          "readOnly": true,
           "type": "integer",
           "format": "int32"
         }
@@ -2642,7 +2988,21 @@
             "userLoadAgent"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.VisualStudio.TestService.WebApiModel.LoadTestMachineType"
+            "name": "LoadTestMachineType",
+            "values": [
+              {
+                "value": "default",
+                "description": ""
+              },
+              {
+                "value": "cLTLoadAgent",
+                "description": ""
+              },
+              {
+                "value": "userLoadAgent",
+                "description": ""
+              }
+            ]
           }
         },
         "setupConfiguration": {
@@ -2651,8 +3011,23 @@
         "supportedRunTypes": {
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "TestRunType"
+            "enum": [
+              "visualStudioLoadTest",
+              "jMeterLoadTest"
+            ],
+            "x-ms-enum": {
+              "name": "TestRunType",
+              "values": [
+                {
+                  "value": "visualStudioLoadTest",
+                  "description": ""
+                },
+                {
+                  "value": "jMeterLoadTest",
+                  "description": ""
+                }
+              ]
+            }
           }
         }
       }
@@ -2695,15 +3070,12 @@
       ],
       "properties": {
         "agentGroupName": {
-          "readOnly": true,
           "type": "string"
         },
         "tenantId": {
-          "readOnly": true,
           "type": "string"
         },
         "userLoadAgentResourcesUri": {
-          "readOnly": true,
           "type": "string"
         },
         "vSTSAccountUri": {
@@ -2731,17 +3103,10 @@
     }
   },
   "parameters": {
-    "api-Version-preview.1": {
+    "api-Version": {
       "name": "api-version",
       "in": "query",
-      "description": "Version of the API to use.  This should be set to '4.1-preview.1' to use this version of the api.",
-      "required": true,
-      "type": "string"
-    },
-    "api-Version-preview.2": {
-      "name": "api-version",
-      "in": "query",
-      "description": "Version of the API to use.  This should be set to '4.1-preview.2' to use this version of the api.",
+      "description": "Version of the API to use.  This should be set to '4.1' to use this version of the api.",
       "required": true,
       "type": "string"
     }
@@ -2750,7 +3115,7 @@
     "accessToken": {
       "type": "basic",
       "description": "Personal access token. Use any value for the user name and the token as the password."
-     }
+    }
   },
   "security": [
     {
@@ -2758,7 +3123,7 @@
     }
   ],
   "externalDocs": {
-    "description": "Visual Studio Team Services REST APIs",
-    "url": "https://www.visualstudio.com/docs/integrate/api/overview"
+    "description": "Azure DevOps REST APIs",
+    "url": "https://aka.ms/azure-devops-rest-apis"
   }
 }

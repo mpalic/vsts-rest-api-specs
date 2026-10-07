@@ -1,4 +1,4 @@
-{
+﻿{
   "swagger": "2.0",
   "info": {
     "title": "Security",
@@ -12,21 +12,9 @@
       "name": "MICROSOFT SOFTWARE LICENSE TERMS",
       "url": "https://go.microsoft.com/fwlink/?LinkId=329770"
     },
-    "version": "4.1-preview"
+    "version": "4.1"
   },
-  "host": "fabrikam-fiber-inc.visualstudio.com",
-  "x-ms-parameterized-host": {
-    "hostTemplate": "{accountName}.visualstudio.com",
-    "parameters": [
-      {
-        "name": "accountName",
-        "description": "The name of the Visual Studio Team Services account.",
-        "required": true,
-        "type": "string",
-        "in": "path"
-      }
-    ]
-  },
+  "host": "dev.azure.com",
   "x-ms-vss-area": "Security",
   "basePath": "/",
   "tags": [
@@ -48,15 +36,14 @@
     "https"
   ],
   "paths": {
-    "/_apis/accesscontrolentries/{securityNamespaceId}": {
+    "/{organization}/_apis/accesscontrolentries/{securityNamespaceId}": {
       "delete": {
         "tags": [
           "Access Control Entries"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "accessControlEntries",
         "x-ms-vss-method": "RemoveAccessControlEntries",
-        "x-ms-preview": true,
         "description": "Remove the specified ACEs from the ACL belonging to the specified token.",
         "operationId": "Remove Access Control Entries",
         "produces": [
@@ -70,6 +57,14 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
           },
           {
             "in": "query",
@@ -86,7 +81,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -95,7 +90,7 @@
             "schema": {
               "type": "boolean"
             }
-         }
+          }
         },
         "security": [
           {
@@ -105,19 +100,18 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/AccessControlEntries/DELETE__accesscontrolentries__securityNamespaceId___token-_token__descriptors-_descriptor1_,_descriptor2_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/AccessControlEntries/DELETE__accesscontrolentries__securityNamespaceId___token-_token__descriptors-_descriptor1_,_descriptor2_.json"
+          }
         }
       },
       "post": {
         "tags": [
           "Access Control Entries"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "accessControlEntries",
         "x-ms-vss-method": "SetAccessControlEntries",
-        "x-ms-preview": true,
         "description": "Add or update ACEs in the ACL for the provided token. In the case of a collision (by identity descriptor) with an existing ACE in the ACL, the \"merge\" parameter determines the behavior. If set, the existing ACE has its allow and deny merged with the incoming ACE's allow and deny. If unset, the existing ACE is displaced.",
         "operationId": "Set Access Control Entries",
         "consumes": [
@@ -145,7 +139,15 @@
             "format": "uuid"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -157,7 +159,7 @@
                 "$ref": "#/definitions/AccessControlEntry"
               }
             }
-         }
+          }
         },
         "security": [
           {
@@ -167,24 +169,23 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/AccessControlEntries/POST__accesscontrolentries__securityNamespaceId__.json"
-            },
-            "Merge": {
-                "$ref": "./httpExamples/AccessControlEntries/POST__accesscontrolentries__securityNamespaceId__merge.json"
-            }
+          "": {
+            "$ref": "./httpExamples/AccessControlEntries/POST__accesscontrolentries__securityNamespaceId__.json"
+          },
+          "Merge": {
+            "$ref": "./httpExamples/AccessControlEntries/POST__accesscontrolentries__securityNamespaceId__merge.json"
+          }
         }
       }
     },
-    "/_apis/accesscontrollists/{securityNamespaceId}": {
+    "/{organization}/_apis/accesscontrollists/{securityNamespaceId}": {
       "get": {
         "tags": [
           "Access Control Lists"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "accessControlLists",
         "x-ms-vss-method": "QueryAccessControlLists",
-        "x-ms-preview": true,
         "description": "Return a list of access control lists for the specified security namespace and token.",
         "operationId": "Query",
         "produces": [
@@ -198,6 +199,14 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
           },
           {
             "in": "query",
@@ -228,7 +237,7 @@
             "type": "boolean"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -240,22 +249,21 @@
                 "$ref": "#/definitions/AccessControlList"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/AccessControlLists/GET__accesscontrollists__securityNamespaceId__.json"
-            }
+          "": {
+            "$ref": "./httpExamples/AccessControlLists/GET__accesscontrollists__securityNamespaceId__.json"
+          }
         }
       },
       "delete": {
         "tags": [
           "Access Control Lists"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "accessControlLists",
         "x-ms-vss-method": "RemoveAccessControlLists",
-        "x-ms-preview": true,
         "description": "Remove access control lists under the specfied security namespace.",
         "operationId": "Remove Access Control Lists",
         "produces": [
@@ -269,6 +277,14 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
           },
           {
             "in": "query",
@@ -285,7 +301,7 @@
             "type": "boolean"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -294,7 +310,7 @@
             "schema": {
               "type": "boolean"
             }
-         }
+          }
         },
         "security": [
           {
@@ -308,10 +324,9 @@
         "tags": [
           "Access Control Lists"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "accessControlLists",
         "x-ms-vss-method": "SetAccessControlLists",
-        "x-ms-preview": true,
         "description": "Create one or more access control lists.",
         "operationId": "Set Access Control Lists",
         "consumes": [
@@ -336,13 +351,21 @@
             "format": "uuid"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation"
-         }
+          }
         },
         "security": [
           {
@@ -353,15 +376,14 @@
         ]
       }
     },
-    "/_apis/permissions/{securityNamespaceId}/{permissions}": {
+    "/{organization}/_apis/permissions/{securityNamespaceId}/{permissions}": {
       "get": {
         "tags": [
           "Permissions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "permissions",
         "x-ms-vss-method": "HasPermissions",
-        "x-ms-preview": true,
         "description": "Evaluates whether the caller has the specified permissions on the specified set of security tokens.",
         "operationId": "Has Permissions",
         "produces": [
@@ -375,6 +397,14 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
           },
           {
             "in": "path",
@@ -407,7 +437,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.2"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -419,17 +449,16 @@
                 "type": "boolean"
               }
             }
-         }
+          }
         }
       },
       "delete": {
         "tags": [
           "Permissions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "permissions",
         "x-ms-vss-method": "RemovePermission",
-        "x-ms-preview": true,
         "description": "Removes the specified permissions from the caller or specified user or group.",
         "operationId": "Remove Permission",
         "produces": [
@@ -443,6 +472,14 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
           },
           {
             "in": "path",
@@ -468,7 +505,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.2"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -477,7 +514,7 @@
             "schema": {
               "$ref": "#/definitions/AccessControlEntry"
             }
-         }
+          }
         },
         "security": [
           {
@@ -488,16 +525,15 @@
         ]
       }
     },
-    "/_apis/security/permissionevaluationbatch": {
+    "/{organization}/_apis/security/permissionevaluationbatch": {
       "post": {
         "tags": [
           "Permissions"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "permissionEvaluationBatch",
         "x-ms-vss-method": "HasPermissionsBatch",
-        "x-ms-preview": true,
-        "description": "Evaluates multiple permissions for the callign user.  Note: This methods does not aggregate the results nor does it short-circut if one of the permissions evaluates to false.",
+        "description": "Evaluates multiple permissions for the calling user.  Note: This method does not aggregate the results, nor does it short-circuit if one of the permissions evaluates to false.",
         "operationId": "Has Permissions Batch",
         "consumes": [
           "application/json"
@@ -509,14 +545,22 @@
           {
             "in": "body",
             "name": "body",
-            "description": "The set of permissions to check.",
+            "description": "The set of evaluation requests.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PermissionEvaluationBatch"
             }
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -525,24 +569,23 @@
             "schema": {
               "$ref": "#/definitions/PermissionEvaluationBatch"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/PermissionEvaluationBatch/POST__security_permissionevaluationbatch__api-version-3.0-preview.json"
-            }
+          "": {
+            "$ref": "./httpExamples/PermissionEvaluationBatch/POST__security_permissionevaluationbatch__api-version-3.0-preview.json"
+          }
         }
       }
     },
-    "/_apis/securitynamespaces/{securityNamespaceId}": {
+    "/{organization}/_apis/securitynamespaces/{securityNamespaceId}": {
       "get": {
         "tags": [
           "Security Namespaces"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1",
         "x-ms-vss-resource": "securityNamespaces",
         "x-ms-vss-method": "QuerySecurityNamespaces",
-        "x-ms-preview": true,
         "description": "",
         "operationId": "Query",
         "produces": [
@@ -558,6 +601,14 @@
             "format": "uuid"
           },
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "x-ms-required": false,
+            "type": "string"
+          },
+          {
             "in": "query",
             "name": "localOnly",
             "description": "",
@@ -565,7 +616,7 @@
             "type": "boolean"
           },
           {
-            "$ref": "#/parameters/api-Version-preview.1"
+            "$ref": "#/parameters/api-Version"
           }
         ],
         "responses": {
@@ -577,12 +628,12 @@
                 "$ref": "#/definitions/SecurityNamespaceDescription"
               }
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/SecurityNamespaces/GET__securitynamespaces_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/SecurityNamespaces/GET__securitynamespaces_.json"
+          }
         }
       }
     }
@@ -644,11 +695,11 @@
         {
           "type": "array",
           "items": {
+            "$ref": "#/definitions/AccessControlList"
           }
         }
       ],
-      "properties": {
-      }
+      "properties": {}
     },
     "AceExtendedInformation": {
       "description": "Holds the inherited and effective permission information for a given AccessControlEntry.",
@@ -717,19 +768,12 @@
     "JObject": {
       "description": "",
       "type": "object",
-      "allOf": [
-        {
-          "type": "string",
-          "format": "JContainer"
-        }
-      ],
       "properties": {
         "item": {
           "type": "string",
           "format": "JToken"
         },
         "type": {
-          "readOnly": true,
           "type": "string",
           "format": "JTokenType"
         }
@@ -857,7 +901,6 @@
       ],
       "properties": {
         "value": {
-          "readOnly": true,
           "type": "string",
           "format": "T"
         }
@@ -868,7 +911,6 @@
       "type": "object",
       "properties": {
         "count": {
-          "readOnly": true,
           "type": "integer",
           "format": "int32"
         }
@@ -876,17 +918,10 @@
     }
   },
   "parameters": {
-    "api-Version-preview.1": {
+    "api-Version": {
       "name": "api-version",
       "in": "query",
-      "description": "Version of the API to use.  This should be set to '4.1-preview.1' to use this version of the api.",
-      "required": true,
-      "type": "string"
-    },
-    "api-Version-preview.2": {
-      "name": "api-version",
-      "in": "query",
-      "description": "Version of the API to use.  This should be set to '4.1-preview.2' to use this version of the api.",
+      "description": "Version of the API to use.  This should be set to '4.1' to use this version of the api.",
       "required": true,
       "type": "string"
     }
@@ -895,8 +930,8 @@
     "accessToken": {
       "type": "basic",
       "description": "Personal access token. Use any value for the user name and the token as the password."
-     },
-     "oauth2": {
+    },
+    "oauth2": {
       "type": "oauth2",
       "flow": "accessCode",
       "authorizationUrl": "https://app.vssps.visualstudio.com/oauth2/authorize&response_type=Assertion",
@@ -912,7 +947,7 @@
     }
   ],
   "externalDocs": {
-    "description": "Visual Studio Team Services REST APIs",
-    "url": "https://www.visualstudio.com/docs/integrate/api/overview"
+    "description": "Azure DevOps REST APIs",
+    "url": "https://aka.ms/azure-devops-rest-apis"
   }
 }

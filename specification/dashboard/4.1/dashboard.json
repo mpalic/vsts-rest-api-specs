@@ -1,4 +1,4 @@
-{
+﻿{
   "swagger": "2.0",
   "info": {
     "title": "Dashboard",
@@ -14,20 +14,9 @@
     },
     "version": "4.1-preview"
   },
-  "host": "fabrikam-fiber-inc.visualstudio.com",
-  "x-ms-parameterized-host": {
-    "hostTemplate": "{accountName}.visualstudio.com",
-    "parameters": [
-      {
-        "name": "accountName",
-        "description": "The name of the Visual Studio Team Services account.",
-        "required": true,
-        "type": "string",
-        "in": "path"
-      }
-    ]
-  },
+  "host": "dev.azure.com",
   "x-ms-vss-area": "Dashboard",
+  "x-ms-vss-resource-area-id": "31c84e0a-3ece-48fd-a29d-100849af99ba",
   "basePath": "/",
   "tags": [
     {
@@ -47,12 +36,12 @@
     "https"
   ],
   "paths": {
-    "/_apis/dashboard/widgettypes": {
+    "/{organization}/_apis/dashboard/widgettypes": {
       "get": {
         "tags": [
           "Widget Types"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "widgetTypes",
         "x-ms-vss-method": "GetWidgetTypes",
         "x-ms-preview": true,
@@ -63,12 +52,35 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "query",
             "name": "$scope",
             "description": "",
             "required": true,
             "type": "string",
-            "format": "WidgetScope"
+            "enum": [
+              "collection_User",
+              "project_Team"
+            ],
+            "x-ms-enum": {
+              "name": "WidgetScope",
+              "values": [
+                {
+                  "value": "collection_User",
+                  "description": ""
+                },
+                {
+                  "value": "project_Team",
+                  "description": ""
+                }
+              ]
+            }
           },
           {
             "$ref": "#/parameters/api-Version-preview.1"
@@ -80,21 +92,21 @@
             "schema": {
               "$ref": "#/definitions/WidgetTypesResponse"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/WidgetTypes/GET__dashboard_WidgetTypes.json"
-            }
+          "": {
+            "$ref": "./httpExamples/WidgetTypes/GET__dashboard_WidgetTypes.json"
+          }
         }
       }
     },
-    "/_apis/dashboard/widgettypes/{contributionId}": {
+    "/{organization}/_apis/dashboard/widgettypes/{contributionId}": {
       "get": {
         "tags": [
           "Widget Types"
         ],
-        "x-ms-vss-api-version": "4.1-preview.1",
+        "x-ms-docs-override-version": "4.1-preview.1",
         "x-ms-vss-resource": "widgetTypes",
         "x-ms-vss-method": "GetWidgetMetadata",
         "x-ms-preview": true,
@@ -104,6 +116,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "contributionId",
@@ -121,21 +140,21 @@
             "schema": {
               "$ref": "#/definitions/WidgetMetadataResponse"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/WidgetTypes/GET__dashboard_WidgetTypes__widgetId_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/WidgetTypes/GET__dashboard_WidgetTypes__widgetId_.json"
+          }
         }
       }
     },
-    "/{project}/{team}/_apis/dashboard/dashboards": {
+    "/{organization}/{project}/{team}/_apis/dashboard/dashboards": {
       "post": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "CreateDashboard",
         "x-ms-preview": true,
@@ -148,6 +167,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -182,7 +208,7 @@
             "schema": {
               "$ref": "#/definitions/Dashboard"
             }
-         }
+          }
         },
         "security": [
           {
@@ -192,16 +218,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Dashboards/POST_dashboard.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Dashboards/POST_dashboard.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "GetDashboards",
         "x-ms-preview": true,
@@ -211,6 +237,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -236,7 +269,7 @@
             "schema": {
               "$ref": "#/definitions/DashboardGroup"
             }
-         }
+          }
         },
         "security": [
           {
@@ -247,16 +280,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Dashboards/GET_dashboards.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Dashboards/GET_dashboards.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "ReplaceDashboards",
         "x-ms-preview": true,
@@ -269,6 +302,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -303,27 +343,34 @@
             "schema": {
               "$ref": "#/definitions/DashboardGroup"
             }
-         }
+          }
         },
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Dashboards/PUT__dashboard_groups__groupId__dashboards__dashboardId__.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Dashboards/PUT__dashboard_groups__groupId__dashboards__dashboardId__.json"
+          }
         }
       }
     },
-    "/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}": {
+    "/{organization}/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}": {
       "delete": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "DeleteDashboard",
         "x-ms-preview": true,
         "description": "Delete a dashboard given its ID. This also deletes the widgets associated with this dashboard.",
         "operationId": "Delete",
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -354,7 +401,7 @@
         "responses": {
           "200": {
             "description": "successful operation"
-         }
+          }
         },
         "security": [
           {
@@ -364,16 +411,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Dashboards/DELETE__dashboard_groups__groupId__dashboards__dashboardId_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Dashboards/DELETE__dashboard_groups__groupId__dashboards__dashboardId_.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "GetDashboard",
         "x-ms-preview": true,
@@ -383,6 +430,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -416,7 +470,7 @@
             "schema": {
               "$ref": "#/definitions/Dashboard"
             }
-         }
+          }
         },
         "security": [
           {
@@ -427,16 +481,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Dashboards/GET_dashboard.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Dashboards/GET_dashboard.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Dashboards"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "dashboards",
         "x-ms-vss-method": "ReplaceDashboard",
         "x-ms-preview": true,
@@ -449,6 +503,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -491,16 +552,16 @@
             "schema": {
               "$ref": "#/definitions/Dashboard"
             }
-         }
+          }
         }
       }
     },
-    "/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}/widgets": {
+    "/{organization}/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}/widgets": {
       "post": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "CreateWidget",
         "x-ms-preview": true,
@@ -513,6 +574,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -555,7 +623,7 @@
             "schema": {
               "$ref": "#/definitions/Widget"
             }
-         }
+          }
         },
         "security": [
           {
@@ -565,16 +633,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/POST_widgets.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/POST_widgets.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "GetWidgets",
         "x-ms-preview": true,
@@ -584,6 +652,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -628,11 +703,11 @@
               }
             },
             "headers": {
-               "ETag": {
-                 "type": "string"
-               }
+              "ETag": {
+                "type": "string"
+              }
             }
-         }
+          }
         },
         "security": [
           {
@@ -643,16 +718,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/GET_widgets.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/GET_widgets.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "ReplaceWidgets",
         "x-ms-preview": true,
@@ -665,6 +740,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -721,11 +803,11 @@
               }
             },
             "headers": {
-               "ETag": {
-                 "type": "string"
-               }
+              "ETag": {
+                "type": "string"
+              }
             }
-         }
+          }
         },
         "security": [
           {
@@ -735,16 +817,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/PUT_widgets.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/PUT_widgets.json"
+          }
         }
       },
       "patch": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "UpdateWidgets",
         "x-ms-preview": true,
@@ -757,6 +839,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -813,11 +902,11 @@
               }
             },
             "headers": {
-               "ETag": {
-                 "type": "string"
-               }
+              "ETag": {
+                "type": "string"
+              }
             }
-         }
+          }
         },
         "security": [
           {
@@ -827,18 +916,18 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/PATCH_widgets.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/PATCH_widgets.json"
+          }
         }
       }
     },
-    "/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}/widgets/{widgetId}": {
+    "/{organization}/{project}/{team}/_apis/dashboard/dashboards/{dashboardId}/widgets/{widgetId}": {
       "delete": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "DeleteWidget",
         "x-ms-preview": true,
@@ -848,6 +937,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -889,7 +985,7 @@
             "schema": {
               "$ref": "#/definitions/Dashboard"
             }
-         }
+          }
         },
         "security": [
           {
@@ -899,16 +995,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/DELETE__dashboard_groups__groupId__dashboards__dashboardId__widgets__widgetId_.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/DELETE__dashboard_groups__groupId__dashboards__dashboardId__widgets__widgetId_.json"
+          }
         }
       },
       "get": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "GetWidget",
         "x-ms-preview": true,
@@ -918,6 +1014,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "path",
             "name": "project",
@@ -959,7 +1062,7 @@
             "schema": {
               "$ref": "#/definitions/Widget"
             }
-         }
+          }
         },
         "security": [
           {
@@ -970,16 +1073,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/GET_widgets_widgetid.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/GET_widgets_widgetid.json"
+          }
         }
       },
       "put": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "ReplaceWidget",
         "x-ms-preview": true,
@@ -992,6 +1095,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1042,7 +1152,7 @@
             "schema": {
               "$ref": "#/definitions/Widget"
             }
-         }
+          }
         },
         "security": [
           {
@@ -1052,16 +1162,16 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/PUT_widgets_widgetid.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/PUT_widgets_widgetid.json"
+          }
         }
       },
       "patch": {
         "tags": [
           "Widgets"
         ],
-        "x-ms-vss-api-version": "4.1-preview.2",
+        "x-ms-docs-override-version": "4.1-preview.2",
         "x-ms-vss-resource": "widgets",
         "x-ms-vss-method": "UpdateWidget",
         "x-ms-preview": true,
@@ -1074,6 +1184,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "organization",
+            "description": "The name of the Azure DevOps organization.",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1124,7 +1241,7 @@
             "schema": {
               "$ref": "#/definitions/Widget"
             }
-         }
+          }
         },
         "security": [
           {
@@ -1134,9 +1251,9 @@
           }
         ],
         "x-ms-examples": {
-            "": {
-                "$ref": "./httpExamples/Widgets/PATCH_widgets_widgetid.json"
-            }
+          "": {
+            "$ref": "./httpExamples/Widgets/PATCH_widgets_widgetid.json"
+          }
         }
       }
     }
@@ -1216,7 +1333,25 @@
             "managePermissions"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.Dashboards.WebApi.GroupMemberPermission"
+            "name": "GroupMemberPermission",
+            "values": [
+              {
+                "value": "none",
+                "description": ""
+              },
+              {
+                "value": "edit",
+                "description": ""
+              },
+              {
+                "value": "manage",
+                "description": ""
+              },
+              {
+                "value": "managePermissions",
+                "description": ""
+              }
+            ]
           }
         },
         "teamDashboardPermission": {
@@ -1230,7 +1365,33 @@
             "managePermissions"
           ],
           "x-ms-enum": {
-            "name": "Microsoft.TeamFoundation.Dashboards.WebApi.TeamDashboardPermission"
+            "name": "TeamDashboardPermission",
+            "values": [
+              {
+                "value": "none",
+                "description": ""
+              },
+              {
+                "value": "read",
+                "description": ""
+              },
+              {
+                "value": "create",
+                "description": ""
+              },
+              {
+                "value": "edit",
+                "description": ""
+              },
+              {
+                "value": "delete",
+                "description": ""
+              },
+              {
+                "value": "managePermissions",
+                "description": ""
+              }
+            ]
           }
         },
         "url": {
@@ -1246,8 +1407,7 @@
           "$ref": "#/definitions/Dashboard"
         }
       ],
-      "properties": {
-      }
+      "properties": {}
     },
     "DashboardGroupEntryResponse": {
       "description": "Response from RestAPI when saving and editing DashboardGroupEntry",
@@ -1257,8 +1417,7 @@
           "$ref": "#/definitions/DashboardGroupEntry"
         }
       ],
-      "properties": {
-      }
+      "properties": {}
     },
     "DashboardResponse": {
       "description": "",
@@ -1268,8 +1427,7 @@
           "$ref": "#/definitions/DashboardGroupEntry"
         }
       ],
-      "properties": {
-      }
+      "properties": {}
     },
     "LightboxOptions": {
       "description": "Lightbox configuration",
@@ -1277,18 +1435,15 @@
       "properties": {
         "height": {
           "description": "Height of desired lightbox, in pixels",
-          "readOnly": true,
           "type": "integer",
           "format": "int32"
         },
         "resizable": {
           "description": "True to allow lightbox resizing, false to disallow lightbox resizing, defaults to false.",
-          "readOnly": true,
           "type": "boolean"
         },
         "width": {
           "description": "Width of desired lightbox, in pixels",
-          "readOnly": true,
           "type": "integer",
           "format": "int32"
         }
@@ -1300,7 +1455,6 @@
       "properties": {
         "links": {
           "description": "The readonly view of the links.  Because Reference links are readonly, we only want to expose them as read only.",
-          "readOnly": true,
           "type": "object",
           "additionalProperties": {
             "type": "object"
@@ -1367,20 +1521,21 @@
             "$ref": "#/definitions/WidgetSize"
           }
         },
+        "areSettingsBlockedForUser": {
+          "description": "Read-Only Property from Dashboard Service. Indicates if settings are blocked for the current user.",
+          "type": "boolean"
+        },
         "artifactId": {
           "description": "Refers to unique identifier of a feature artifact. Used for pinning+unpinning a specific artifact.",
           "type": "string"
         },
         "configurationContributionId": {
-          "readOnly": true,
           "type": "string"
         },
         "configurationContributionRelativeId": {
-          "readOnly": true,
           "type": "string"
         },
         "contentUri": {
-          "readOnly": true,
           "type": "string"
         },
         "contributionId": {
@@ -1399,18 +1554,15 @@
           "format": "uuid"
         },
         "isEnabled": {
-          "readOnly": true,
           "type": "boolean"
         },
         "isNameConfigurable": {
-          "readOnly": true,
           "type": "boolean"
         },
         "lightboxOptions": {
           "$ref": "#/definitions/LightboxOptions"
         },
         "loadingImageUrl": {
-          "readOnly": true,
           "type": "string"
         },
         "name": {
@@ -1429,7 +1581,6 @@
           "$ref": "#/definitions/WidgetSize"
         },
         "typeId": {
-          "readOnly": true,
           "type": "string"
         },
         "url": {
@@ -1520,8 +1671,23 @@
           "description": "Data contract required for the widget to function and to work in its container.",
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "WidgetScope"
+            "enum": [
+              "collection_User",
+              "project_Team"
+            ],
+            "x-ms-enum": {
+              "name": "WidgetScope",
+              "values": [
+                {
+                  "value": "collection_User",
+                  "description": ""
+                },
+                {
+                  "value": "project_Team",
+                  "description": ""
+                }
+              ]
+            }
           }
         },
         "targets": {
@@ -1571,8 +1737,7 @@
           "$ref": "#/definitions/Widget"
         }
       ],
-      "properties": {
-      }
+      "properties": {}
     },
     "WidgetSize": {
       "description": "",
@@ -1647,8 +1812,8 @@
     "accessToken": {
       "type": "basic",
       "description": "Personal access token. Use any value for the user name and the token as the password."
-     },
-     "oauth2": {
+    },
+    "oauth2": {
       "type": "oauth2",
       "flow": "accessCode",
       "authorizationUrl": "https://app.vssps.visualstudio.com/oauth2/authorize&response_type=Assertion",
@@ -1665,7 +1830,7 @@
     }
   ],
   "externalDocs": {
-    "description": "Visual Studio Team Services REST APIs",
-    "url": "https://www.visualstudio.com/docs/integrate/api/overview"
+    "description": "Azure DevOps REST APIs",
+    "url": "https://aka.ms/azure-devops-rest-apis"
   }
 }
